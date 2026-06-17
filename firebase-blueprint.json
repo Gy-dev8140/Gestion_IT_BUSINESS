@@ -1,0 +1,25 @@
+{
+  "collections": [
+    {
+      "name": "interventions",
+      "rules": "allow read, write: if true;",
+      "indexes": [
+        {
+          "fields": [
+            { "fieldPath": "createdAt", "order": "DESCENDING" }
+          ]
+        },
+        {
+          "fields": [
+            { "fieldPath": "status", "order": "ASCENDING" },
+            { "fieldPath": "createdAt", "order": "DESCENDING" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clients",
+      "rules": "allow read, write: if true;"
+    }
+  ]
+}

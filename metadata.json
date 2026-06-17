@@ -1,0 +1,6 @@
+{
+  "name": "IT Business Manager",
+  "description": "Gestion des interventions informatique",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
