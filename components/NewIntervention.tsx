@@ -48,7 +48,7 @@ export default function NewIntervention({ onNavigate }: { onNavigate: (view: any
       client.id = clientDoc.id;
 
       const ticketId = `TICK-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
-      
+
       const intv: Intervention = {
         ticketId,
         client,
@@ -59,6 +59,10 @@ export default function NewIntervention({ onNavigate }: { onNavigate: (view: any
       };
 
       await addDoc(collection(db, "interventions"), intv);
+
+      // ── Envoi du message de confirmation WhatsApp au client ──
+      sendWhatsAppConfirmation(client.whatsapp || client.telephone, ticketId, probleme.categorie);
+
       setSuccess(true);
       setTimeout(() => onNavigate("interventions"), 2000);
     } catch (err: any) {
@@ -67,6 +71,27 @@ export default function NewIntervention({ onNavigate }: { onNavigate: (view: any
     } finally {
       setLoading(false);
     }
+  };
+
+  /**
+   * Ouvre WhatsApp avec le numéro du client et un message de confirmation de ticket.
+   * @param whatsapp  Numéro WhatsApp du client (avec ou sans indicatif)
+   * @param ticketId  Identifiant du ticket généré
+   * @param categorie Catégorie du problème
+   */
+  const sendWhatsAppConfirmation = (whatsapp: string, ticketId: string, categorie: string) => {
+    // Nettoyage du numéro : on garde uniquement chiffres et le signe +
+    const cleaned = whatsapp.replace(/[\s\-().]/g, "");
+    // Si le numéro ne commence pas par +, on suppose Togo (+228)
+    const phone = cleaned.startsWith("+") ? cleaned : `+228${cleaned}`;
+
+    const message =
+      `CHER ABONNE, VOTRE TICKET ${ticketId} , PORTANT SUR "${categorie.toUpperCase()}" ,` +
+      `ENREGISTRE SUITE A VOTRE APPEL EST ACTUELLEMENT PRIS EN CHARGE.` +
+      ` INFO+228 92 67 62 10\n+228 90 92 60 04`;
+
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
   };
 
   if (success) {
@@ -81,24 +106,45 @@ export default function NewIntervention({ onNavigate }: { onNavigate: (view: any
     );
   }
 
+  /* ── Sub-components ── */
   const Input = ({ label, name, type = "text", required = false, className = "col-span-1" }: any) => (
     <div className={`space-y-1 ${className}`}>
-      <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && <span className="text-red-500">*</span>}</label>
-      <input type={type} name={name} required={required} className="w-full p-2 border rounded bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+      <label className="text-[10px] text-gray-400 font-bold uppercase">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <input
+        type={type}
+        name={name}
+        required={required}
+        className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+      />
     </div>
   );
 
   const Textarea = ({ label, name, required = false, className = "col-span-2" }: any) => (
     <div className={`space-y-1 ${className}`}>
-      <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && <span className="text-red-500">*</span>}</label>
-      <textarea name={name} required={required} rows={3} className="w-full p-2 border rounded bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"></textarea>
+      <label className="text-[10px] text-gray-400 font-bold uppercase">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <textarea
+        name={name}
+        required={required}
+        rows={3}
+        className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+      />
     </div>
   );
 
   const Select = ({ label, name, options, required = false, className = "col-span-1" }: any) => (
     <div className={`space-y-1 ${className}`}>
-      <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && <span className="text-red-500">*</span>}</label>
-      <select name={name} required={required} className="w-full p-2 border rounded bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+      <label className="text-[10px] text-gray-400 font-bold uppercase">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <select
+        name={name}
+        required={required}
+        className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+      >
         <option value="">Sélectionner...</option>
         {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
       </select>
@@ -107,53 +153,91 @@ export default function NewIntervention({ onNavigate }: { onNavigate: (view: any
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
-      <main className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 content-start overflow-y-auto">
-        
-        {/* CLIENT */}
-        <section className="space-y-4">
-          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1">Informations Client</h3>
-          <div className="grid grid-cols-2 gap-3">
-            <Input label="Prénom" name="prenom" required />
-            <Input label="Nom" name="nom" required />
-            <Input label="Entreprise" name="entreprise" className="col-span-2" />
-            <Input label="Téléphone" name="telephone" type="tel" required />
-            <Input label="WhatsApp" name="whatsapp" type="tel" required />
-            <Input label="Email" name="email" type="email" />
-            <Input label="Ville" name="ville" required />
-            <Input label="Quartier" name="quartier" className="col-span-2" required />
-            <Input label="Adresse Complète" name="adresse" className="col-span-2" />
-          </div>
-        </section>
+      {/* ── Contenu scrollable ── */}
+      <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        {/* Grille principale : 1 col mobile → 2 col tablette → 3 col desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 content-start">
 
-        {/* MATERIEL & PROBLEME */}
-        <section className="space-y-4">
-          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1">Matériel & Problème</h3>
-          <div className="grid grid-cols-2 gap-3">
-            <Select label="Type" name="type" required options={["Ordinateur portable", "Ordinateur bureau", "Imprimante", "Réseau", "Serveur", "Téléphone", "Autre"]} />
-            <Input label="Marque" name="marque" required />
-            <Input label="Modèle" name="modele" required />
-            <Input label="N° de série" name="numero_serie" />
-            <Input label="Date d'achat" name="date_achat" type="date" className="col-span-2" />
-            
-            <div className="col-span-2 mt-4 space-y-1">
-              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1 mb-2">Détails Problème</h3>
+          {/* ── Section CLIENT ── */}
+          <section className="space-y-4 md:col-span-1">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1">
+              Informations Client
+            </h3>
+            {/* Sous-grille : 2 cols sur mobile aussi pour prénom/nom côte à côte */}
+            <div className="grid grid-cols-2 gap-3">
+              <Input label="Prénom" name="prenom" required />
+              <Input label="Nom" name="nom" required />
+              <Input label="Entreprise" name="entreprise" className="col-span-2" />
+              <Input label="Téléphone" name="telephone" type="tel" required />
+              <Input label="WhatsApp" name="whatsapp" type="tel" required />
+              <Input label="Email" name="email" type="email" className="col-span-2" />
+              <Input label="Ville" name="ville" required />
+              <Input label="Quartier" name="quartier" required />
+              <Input label="Adresse Complète" name="adresse" className="col-span-2" />
             </div>
-            <Select label="Catégorie" name="categorie" required options={["Matériel", "Logiciel", "Réseau", "Virus", "Impression", "OS", "Messagerie", "Sauvegarde", "Autre"]} />
-            <Select label="Urgence" name="urgence" required options={["Faible", "Moyen", "Élevé", "Critique"]} />
-            <Input label="Apparu depuis ?" name="depuis_quand" className="col-span-2" />
-            <Textarea label="Description détaillée" name="description" required className="col-span-2" />
-            <Textarea label="Symptômes" name="symptomes" className="col-span-2" />
-          </div>
-        </section>
+          </section>
 
+          {/* ── Section MATERIEL ── */}
+          <section className="space-y-4 md:col-span-1">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1">
+              Matériel
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <Select
+                label="Type"
+                name="type"
+                required
+                className="col-span-2"
+                options={["Ordinateur portable", "Ordinateur bureau", "Imprimante", "Réseau", "Serveur", "Téléphone", "Autre"]}
+              />
+              <Input label="Marque" name="marque" required />
+              <Input label="Modèle" name="modele" required />
+              <Input label="N° de série" name="numero_serie" />
+              <Input label="Date d'achat" name="date_achat" type="date" />
+            </div>
+          </section>
+
+          {/* ── Section PROBLEME ── */}
+          <section className="space-y-4 md:col-span-2 lg:col-span-1">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b pb-1">
+              Détails Problème
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <Select
+                label="Catégorie"
+                name="categorie"
+                required
+                options={["Matériel", "Logiciel", "Réseau", "Virus", "Impression", "OS", "Messagerie", "Sauvegarde", "Autre"]}
+              />
+              <Select
+                label="Urgence"
+                name="urgence"
+                required
+                options={["Faible", "Moyen", "Élevé", "Critique"]}
+              />
+              <Input label="Apparu depuis ?" name="depuis_quand" className="col-span-2" />
+              <Textarea label="Description détaillée" name="description" required className="col-span-2" />
+              <Textarea label="Symptômes" name="symptomes" className="col-span-2" />
+            </div>
+          </section>
+
+        </div>
       </main>
 
-      {/* Action Footer */}
-      <footer className="h-20 shrink-0 bg-white border-t p-4 flex items-center justify-between px-8">
-        <button type="button" onClick={() => onNavigate('dashboard')} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-bold border transition-colors">
+      {/* ── Footer actions ── */}
+      <footer className="shrink-0 bg-white border-t px-4 md:px-8 py-3 md:py-4 flex items-center justify-between gap-3 safe-area-bottom">
+        <button
+          type="button"
+          onClick={() => onNavigate('dashboard')}
+          className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold border transition-colors"
+        >
           Annuler
         </button>
-        <button type="submit" disabled={loading} className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-full text-sm font-bold shadow-lg shadow-green-100 transition-all transform active:scale-95 flex items-center gap-2 disabled:opacity-70">
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex-1 md:flex-none px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-full text-sm font-bold shadow-lg shadow-green-100 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70"
+        >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
           Enregistrer Ticket
         </button>

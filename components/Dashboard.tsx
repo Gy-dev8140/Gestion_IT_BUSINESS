@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { db, collection, onSnapshot, query, orderBy } from "../lib/firebase";
 import { Intervention, Client } from "../lib/types";
-import { Users, ClipboardList, Clock, CheckCircle, TrendingUp } from "lucide-react";
 
 export default function Dashboard({ onNavigate }: { onNavigate: (view: any) => void }) {
   const [interventions, setInterventions] = useState<Intervention[]>([]);
@@ -31,43 +30,53 @@ export default function Dashboard({ onNavigate }: { onNavigate: (view: any) => v
   const inPending = interventions.filter(i => i.status === "En attente" || i.status === "En cours").length;
   const completed = interventions.filter(i => i.status === "Résolu" || i.status === "Livré").length;
 
+  const stats = [
+    { label: "Clients Totaux", value: totalClients, color: "text-gray-800" },
+    { label: "Interventions", value: totalInterventions, color: "text-gray-800" },
+    { label: "En Attente / Cours", value: inPending, color: "text-orange-500" },
+    { label: "Terminées", value: completed, color: "text-emerald-600" },
+  ];
 
   return (
     <div className="flex-1 flex flex-col h-full bg-gray-50 overflow-y-auto">
-      {/* Header / Stats Bar */}
-      <header className="shrink-0 h-16 bg-white border-b flex items-center justify-between px-6">
-        <div className="flex gap-8 overflow-x-auto">
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Clients Totaux</span>
-            <span className="text-lg font-bold text-gray-800">{totalClients}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Interventions</span>
-            <span className="text-lg font-bold text-gray-800">{totalInterventions}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">En Attente / En Cours</span>
-            <span className="text-lg font-bold text-orange-500">{inPending}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Terminées</span>
-            <span className="text-lg font-bold text-emerald-600">{completed}</span>
-          </div>
+
+      {/* ── Stats Bar — desktop horizontal / mobile grille 2×2 ── */}
+      <header className="shrink-0 bg-white border-b">
+        {/* Desktop */}
+        <div className="hidden md:flex h-16 items-center gap-8 px-6 overflow-x-auto">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col shrink-0">
+              <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">{s.label}</span>
+              <span className={`text-lg font-bold ${s.color}`}>{s.value}</span>
+            </div>
+          ))}
+        </div>
+        {/* Mobile — grille 2×2 */}
+        <div className="md:hidden grid grid-cols-2 divide-x divide-y divide-gray-100">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col p-3">
+              <span className="text-[9px] uppercase text-gray-400 font-bold tracking-wider leading-tight">{s.label}</span>
+              <span className={`text-xl font-bold mt-0.5 ${s.color}`}>{s.value}</span>
+            </div>
+          ))}
         </div>
       </header>
 
-      <main className="p-6">
+      {/* ── Dernières interventions ── */}
+      <main className="p-3 md:p-6">
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden mt-2">
           <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Dernières interventions</h2>
-            <button 
+            <button
               onClick={() => onNavigate("interventions")}
               className="text-blue-600 hover:text-blue-700 text-xs font-bold"
             >
               Voir tout
             </button>
           </div>
-          <div className="overflow-x-auto">
+
+          {/* Tableau desktop (md+) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-gray-50 text-gray-400 uppercase tracking-wider">
                 <tr>
@@ -107,6 +116,30 @@ export default function Dashboard({ onNavigate }: { onNavigate: (view: any) => v
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Cards mobile */}
+          <div className="md:hidden divide-y divide-gray-100">
+            {interventions.slice(0, 5).map(int => (
+              <div key={int.id} className="p-4 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-bold text-blue-600 text-xs">{int.ticketId}</p>
+                  <p className="text-xs font-semibold text-gray-800 mt-0.5">{int.client.prenom} {int.client.nom}</p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">{int.equipement.marque} {int.equipement.modele}</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">{new Date(int.createdAt).toLocaleDateString()}</p>
+                </div>
+                <span className={`shrink-0 px-2 py-1 rounded text-[10px] font-bold ${
+                  int.status === "Livré" || int.status === "Résolu" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" :
+                  int.status === "En cours" ? "bg-blue-50 text-blue-700 border border-blue-100" :
+                  "bg-orange-50 text-orange-700 border border-orange-100"
+                }`}>
+                  {int.status}
+                </span>
+              </div>
+            ))}
+            {interventions.length === 0 && (
+              <p className="px-4 py-8 text-center text-[11px] text-gray-400">Aucune intervention pour le moment.</p>
+            )}
           </div>
         </div>
       </main>
