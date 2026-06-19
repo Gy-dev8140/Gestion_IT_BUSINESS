@@ -7,21 +7,21 @@ import { Check, Loader2, ArrowLeft } from "lucide-react";
 const Input = ({ label, name, type = "text", required = false, className = "col-span-1" }: any) => (
     <div className={`space-y-1 ${className}`}>
       <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && "*"}</label>
-      <input type={type} name={name} required={required} className="w-full p-2.5 border rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500" />
+      <input type={type} name={name} required={required} className="w-full p-2.5 border dark:border-gray-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
     </div>
   );
 
   const Textarea = ({ label, name, required = false, className = "col-span-2" }: any) => (
     <div className={`space-y-1 ${className}`}>
       <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && "*"}</label>
-      <textarea name={name} required={required} rows={3} className="w-full p-2.5 border rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500" />
+      <textarea name={name} required={required} rows={3} className="w-full p-2.5 border dark:border-gray-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
     </div>
   );
 
   const Select = ({ label, name, options, required = false, className = "col-span-1" }: any) => (
     <div className={`space-y-1 ${className}`}>
       <label className="text-[10px] text-gray-400 font-bold uppercase">{label} {required && "*"}</label>
-      <select name={name} required={required} className="w-full p-2.5 border rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500">
+      <select name={name} required={required} className="w-full p-2.5 border dark:border-gray-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
         <option value="">Sélectionner...</option>
         {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
       </select>
@@ -101,17 +101,17 @@ export default function FormSolutionsIA({ onNavigate }: { onNavigate: (view: str
         <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
           <Check className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Demande envoyée !</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Demande envoyée !</h2>
       </div>
     );
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden bg-gray-50">
-      <div className="shrink-0 bg-white px-4 py-3 border-b flex items-center gap-3">
-        <button type="button" onClick={() => onNavigate('services')} className="p-2 hover:bg-gray-100 rounded-full text-gray-500">
+    <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden bg-gray-50 dark:bg-gray-950">
+      <div className="shrink-0 bg-white dark:bg-gray-900 px-4 py-3 border-b dark:border-gray-800 flex items-center gap-3">
+        <button type="button" onClick={() => onNavigate('services')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-500 dark:text-gray-400">
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-lg font-bold text-gray-900 tracking-tight">Nouvelle Demande : Solutions IA</h2>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">Nouvelle Demande : Solutions IA</h2>
       </div>
 
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
@@ -143,7 +143,7 @@ export default function FormSolutionsIA({ onNavigate }: { onNavigate: (view: str
         </div>
       </main>
 
-      <footer className="shrink-0 bg-white border-t px-4 md:px-8 py-3 flex items-center justify-end gap-3 safe-area-bottom">
+      <footer className="shrink-0 bg-white dark:bg-gray-900 border-t dark:border-gray-800 px-4 md:px-8 py-3 flex items-center justify-end gap-3 safe-area-bottom">
         <button type="submit" disabled={loading} className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-full text-sm font-bold shadow-lg shadow-amber-200 flex items-center justify-center gap-2">
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
           Envoyer la Demande

@@ -16,7 +16,7 @@ export default function ServicesHub({ onNavigate }: { onNavigate: (view: string)
       title: "SUPPORT IT",
       description: "Assistance technique, maintenance parc informatique et infogérance.",
       icon: Headphones,
-      color: "bg-blue-50 text-blue-600 border-blue-200",
+      color: "bg-blue-50 dark:bg-blue-900/30 text-blue-600 border-b dark:border-gray-800lue-200",
       iconBg: "bg-blue-100"
     },
     {
@@ -24,7 +24,7 @@ export default function ServicesHub({ onNavigate }: { onNavigate: (view: string)
       title: "CONCEPTION DE SITE WEB",
       description: "Création de sites vitrines, e-commerce et plateformes sur mesure.",
       icon: Globe,
-      color: "bg-emerald-50 text-emerald-600 border-emerald-200",
+      color: "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 border-emerald-200",
       iconBg: "bg-emerald-100"
     },
     {
@@ -32,7 +32,7 @@ export default function ServicesHub({ onNavigate }: { onNavigate: (view: string)
       title: "DÉVELOPPEMENT APPLICATION",
       description: "Applications mobiles iOS/Android et logiciels métiers spécifiques.",
       icon: Smartphone,
-      color: "bg-purple-50 text-purple-600 border-purple-200",
+      color: "bg-purple-50 dark:bg-purple-900/30 text-purple-600 border-purple-200",
       iconBg: "bg-purple-100"
     },
     {
@@ -46,11 +46,11 @@ export default function ServicesHub({ onNavigate }: { onNavigate: (view: string)
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
+    <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 dark:bg-gray-950">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Nos Services</h2>
-          <p className="text-sm text-gray-500 mt-1">Sélectionnez le service souhaité pour formuler une nouvelle demande.</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Nos Services</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Sélectionnez le service souhaité pour formuler une nouvelle demande.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -58,15 +58,15 @@ export default function ServicesHub({ onNavigate }: { onNavigate: (view: string)
             <button
               key={service.id}
               onClick={() => onNavigate(service.id)}
-              className={`flex flex-col items-start p-6 rounded-2xl border transition-all hover:shadow-lg hover:-translate-y-1 bg-white border-gray-200 text-left`}
+              className={`flex flex-col items-start p-6 rounded-2xl border transition-all hover:shadow-lg hover:-translate-y-1 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-left`}
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${service.color}`}>
                 <service.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">{service.title}</h3>
-              <p className="text-xs text-gray-500 line-clamp-3">{service.description}</p>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{service.title}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-3">{service.description}</p>
               
-              <div className="mt-auto pt-4 w-full flex items-center text-xs font-bold text-blue-600 group-hover:text-blue-700">
+              <div className="mt-auto pt-4 w-full flex items-center text-xs font-bold text-blue-600 group-hover:text-blue-700 dark:text-blue-400">
                 Faire une demande &rarr;
               </div>
             </button>

@@ -71,12 +71,12 @@ export default function DemandesList() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Nouveau": return "bg-blue-100 text-blue-700";
-      case "En cours d'analyse": return "bg-orange-100 text-orange-700";
-      case "Devis envoyé": return "bg-purple-100 text-purple-700";
+      case "Nouveau": return "bg-blue-100 text-blue-700 dark:text-blue-400";
+      case "En cours d'analyse": return "bg-orange-100 text-orange-700 dark:text-orange-400";
+      case "Devis envoyé": return "bg-purple-100 text-purple-700 dark:text-purple-400";
       case "Accepté": return "bg-green-100 text-green-700";
-      case "Terminé": return "bg-gray-100 text-gray-700";
-      default: return "bg-gray-100 text-gray-700";
+      case "Terminé": return "bg-gray-100 text-gray-700 dark:text-gray-300";
+      default: return "bg-gray-100 text-gray-700 dark:text-gray-300";
     }
   };
 
@@ -92,11 +92,11 @@ export default function DemandesList() {
   });
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <header className="px-6 py-4 border-b flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+      <header className="px-6 py-4 border-b dark:border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Demandes de Services</h2>
-          <p className="text-xs text-gray-500">Gérez les demandes clients spécifiques ({filteredDemandes.length})</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Demandes de Services</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Gérez les demandes clients spécifiques ({filteredDemandes.length})</p>
         </div>
         
         <div className="flex items-center gap-3">
@@ -107,13 +107,13 @@ export default function DemandesList() {
               placeholder="Rechercher..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="pl-9 pr-4 py-2 border dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             />
           </div>
           <select 
             value={selectedService} 
             onChange={(e) => setSelectedService(e.target.value)}
-            className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="px-3 py-2 border dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             <option value="">Tous les services</option>
             <option value="CYBER DÉFENSE">Cyber Défense</option>
@@ -125,33 +125,33 @@ export default function DemandesList() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-auto p-6 bg-gray-50">
+      <main className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-950">
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
           </div>
         ) : filteredDemandes.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
             <FileText className="w-12 h-12 mx-auto text-gray-300 mb-3" />
             <p>Aucune demande trouvée.</p>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredDemandes.map((demande) => (
-              <div key={demande.id} className="bg-white p-4 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
+              <div key={demande.id} className="bg-white dark:bg-gray-900 p-4 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-3">
                   <div>
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{demande.ticketId}</span>
-                    <h3 className="font-bold text-gray-900 mt-1">{demande.client.prenom} {demande.client.nom}</h3>
+                    <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{demande.ticketId}</span>
+                    <h3 className="font-bold text-gray-900 dark:text-white mt-1">{demande.client.prenom} {demande.client.nom}</h3>
                     {demande.client.entreprise && (
-                      <p className="text-xs text-gray-500">{demande.client.entreprise}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{demande.client.entreprise}</p>
                     )}
                   </div>
                   <div className="flex gap-2">
                     <button onClick={() => handleSendWhatsApp(demande)} className="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg" title="Envoyer WhatsApp">
                       <MessageSquare className="w-4 h-4" />
                     </button>
-                    <button onClick={() => handleDownloadPDF(demande)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" title="Télécharger PDF">
+                    <button onClick={() => handleDownloadPDF(demande)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:bg-blue-900/30 rounded-lg" title="Télécharger PDF">
                       <Download className="w-4 h-4" />
                     </button>
                     <button onClick={() => demande.id && handleDelete(demande.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg" title="Supprimer">
@@ -162,20 +162,20 @@ export default function DemandesList() {
 
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Service:</span>
+                    <span className="text-gray-500 dark:text-gray-400">Service:</span>
                     <span className="font-bold">{demande.serviceType}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Téléphone:</span>
+                    <span className="text-gray-500 dark:text-gray-400">Téléphone:</span>
                     <span className="font-medium">{demande.client.telephone}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Date:</span>
+                    <span className="text-gray-500 dark:text-gray-400">Date:</span>
                     <span>{new Date(demande.createdAt).toLocaleDateString('fr-FR')}</span>
                   </div>
                 </div>
 
-                <div className="border-t pt-3 flex items-center justify-between">
+                <div className="border-t dark:border-gray-800 pt-3 flex items-center justify-between">
                   <select 
                     value={demande.status}
                     onChange={(e) => demande.id && handleStatusChange(demande.id, e.target.value)}

@@ -25,13 +25,13 @@ export default function ClientsList() {
   );
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-gray-50 overflow-hidden">
+    <div className="flex-1 flex flex-col h-full bg-gray-50 dark:bg-gray-950 overflow-hidden">
 
       {/* ── Header ── */}
-      <header className="shrink-0 bg-white border-b">
+      <header className="shrink-0 bg-white dark:bg-gray-900 border-b dark:border-gray-800">
         {/* Desktop */}
         <div className="hidden md:flex h-16 items-center justify-between px-6">
-          <h1 className="text-sm font-bold text-gray-800 uppercase tracking-widest">Base Clients</h1>
+          <h1 className="text-sm font-bold text-gray-800 dark:text-gray-200 uppercase tracking-widest">Base Clients</h1>
           <div className="relative">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
@@ -39,7 +39,7 @@ export default function ClientsList() {
               placeholder="Rechercher client..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-1.5 border border-gray-200 rounded text-xs w-64 focus:ring-1 focus:ring-blue-500 outline-none bg-gray-50"
+              className="pl-9 pr-4 py-1.5 border border-gray-200 dark:border-gray-800 rounded text-xs w-64 focus:ring-1 focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-950"
             />
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function ClientsList() {
               placeholder="Rechercher client, tél, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none bg-gray-50"
+              className="pl-9 pr-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white"
             />
           </div>
         </div>
@@ -61,10 +61,10 @@ export default function ClientsList() {
       <main className="flex-1 p-3 md:p-6 overflow-y-auto">
 
         {/* ── Tableau desktop (md+) ── */}
-        <div className="hidden md:block bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <div className="hidden md:block bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-gray-50 text-gray-400 uppercase tracking-wider border-b border-gray-100">
+              <thead className="bg-gray-50 dark:bg-gray-950 text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800">
                 <tr>
                   <th className="px-6 py-3 font-bold">Nom complet</th>
                   <th className="px-6 py-3 font-bold">Contact</th>
@@ -72,22 +72,22 @@ export default function ClientsList() {
                   <th className="px-6 py-3 font-bold">Date d'ajout</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {filtered.map(client => (
-                  <tr key={client.id} className="hover:bg-gray-50/80 transition-colors">
+                  <tr key={client.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/80 dark:bg-gray-900/80 transition-colors">
                     <td className="px-6 py-3">
-                      <div className="font-bold text-gray-800">{client.prenom} {client.nom}</div>
+                      <div className="font-bold text-gray-800 dark:text-gray-200">{client.prenom} {client.nom}</div>
                       {client.entreprise && <div className="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">{client.entreprise}</div>}
                     </td>
                     <td className="px-6 py-3">
-                      <div className="font-bold text-gray-700">{client.telephone} {client.whatsapp && <span className="text-green-700 ml-1 text-[9px] px-1 bg-green-50 rounded border border-green-200">WA</span>}</div>
-                      <div className="text-[10px] text-gray-500 mt-0.5">{client.email}</div>
+                      <div className="font-bold text-gray-700 dark:text-gray-300">{client.telephone} {client.whatsapp && <span className="text-green-700 ml-1 text-[9px] px-1 bg-green-50 rounded border border-green-200">WA</span>}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">{client.email}</div>
                     </td>
                     <td className="px-6 py-3">
-                      <div className="font-bold text-gray-700">{client.ville}, {client.quartier}</div>
-                      <div className="text-[10px] text-gray-500 truncate max-w-[150px] mt-0.5" title={client.adresse}>{client.adresse}</div>
+                      <div className="font-bold text-gray-700 dark:text-gray-300">{client.ville}, {client.quartier}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400 truncate max-w-[150px] mt-0.5" title={client.adresse}>{client.adresse}</div>
                     </td>
-                    <td className="px-6 py-3 text-gray-500 font-medium">
+                    <td className="px-6 py-3 text-gray-500 dark:text-gray-400 font-medium">
                       {client.createdAt ? new Date(client.createdAt).toLocaleDateString() : '-'}
                     </td>
                   </tr>
@@ -107,15 +107,15 @@ export default function ClientsList() {
         {/* ── Cards mobile ── */}
         <div className="md:hidden space-y-2">
           {filtered.map(client => (
-            <div key={client.id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <div key={client.id} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-4">
               {/* Nom + entreprise */}
               <div className="flex items-start justify-between gap-2 mb-3">
                 <div>
-                  <p className="font-bold text-gray-800 text-sm">{client.prenom} {client.nom}</p>
+                  <p className="font-bold text-gray-800 dark:text-gray-200 text-sm">{client.prenom} {client.nom}</p>
                   {client.entreprise && (
                     <div className="flex items-center gap-1 mt-0.5">
                       <Building2 className="w-3 h-3 text-gray-400" />
-                      <span className="text-[10px] text-gray-500 uppercase tracking-wider">{client.entreprise}</span>
+                      <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wider">{client.entreprise}</span>
                     </div>
                   )}
                 </div>
@@ -128,7 +128,7 @@ export default function ClientsList() {
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                  <span className="text-xs text-gray-700 font-medium">{client.telephone}</span>
+                  <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">{client.telephone}</span>
                   {client.whatsapp && (
                     <span className="text-green-700 text-[9px] px-1 bg-green-50 rounded border border-green-200 font-bold">WA</span>
                   )}
@@ -136,12 +136,12 @@ export default function ClientsList() {
                 {client.email && (
                   <div className="flex items-center gap-2">
                     <Mail className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                    <span className="text-[11px] text-gray-500 truncate">{client.email}</span>
+                    <span className="text-[11px] text-gray-500 dark:text-gray-400 truncate">{client.email}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                  <span className="text-[11px] text-gray-600">{client.ville}, {client.quartier}</span>
+                  <span className="text-[11px] text-gray-600 dark:text-gray-400">{client.ville}, {client.quartier}</span>
                 </div>
               </div>
             </div>

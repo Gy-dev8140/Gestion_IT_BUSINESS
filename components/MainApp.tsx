@@ -45,11 +45,11 @@ export default function MainApp() {
   const currentLabel = navItems.find((n) => n.id === currentView)?.label ?? "";
 
   return (
-    <div className="flex h-screen w-full bg-gray-50 dark:bg-gray-900 font-sans overflow-hidden text-sm select-none transition-colors duration-200">
+    <div className="flex h-screen w-full bg-gray-50 dark:bg-gray-950 dark:bg-gray-900 font-sans overflow-hidden text-sm select-none transition-colors duration-200">
       {/* ── Sidebar desktop (md+) ── */}
-      <aside className="w-52 bg-blue-900 dark:bg-gray-950 text-white hidden md:flex flex-col shrink-0 border-r border-transparent dark:border-gray-800 transition-colors duration-200">
-        <div className="p-6 border-b border-blue-800 dark:border-gray-800 flex items-center justify-center h-24">
-          <img src="/logo.png" alt="Logo" className="max-h-full max-w-full object-contain" />
+      <aside className="w-52 bg-blue-900 dark:bg-gray-950 text-white hidden md:flex flex-col shrink-0 border-r border-t dark:border-gray-800ransparent dark:border-gray-800 transition-colors duration-200">
+        <div className="p-4 border-b border-b dark:border-gray-800lue-800 dark:border-gray-800 flex items-center justify-center h-32">
+          <img src="/logo.png" alt="Logo" className="max-h-full max-w-full object-contain transform scale-110" />
         </div>
         <nav className="flex-1 py-4">
           {navItems.map((item) => (
@@ -67,9 +67,9 @@ export default function MainApp() {
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-blue-800 dark:border-gray-800 flex items-center justify-between">
+        <div className="p-4 border-t border-b dark:border-gray-800lue-800 dark:border-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/300 flex items-center justify-center font-bold">
               <User className="w-5 h-5" />
             </div>
             <div className="text-xs overflow-hidden text-left">
@@ -86,9 +86,9 @@ export default function MainApp() {
       {/* ── Zone principale ── */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
         {/* Header mobile uniquement */}
-        <header className="md:hidden shrink-0 h-14 bg-blue-900 dark:bg-gray-950 text-white flex items-center justify-between px-4 shadow-lg z-10 transition-colors duration-200">
-          <div className="flex items-center gap-2 h-full py-2">
-            <img src="/logo.png" alt="Logo" className="h-full object-contain" />
+        <header className="md:hidden shrink-0 h-16 bg-blue-900 dark:bg-gray-950 text-white flex items-center justify-between px-4 shadow-lg z-10 transition-colors duration-200">
+          <div className="flex items-center gap-2 h-full py-1.5">
+            <img src="/logo.png" alt="Logo" className="h-full object-contain transform scale-110" />
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs font-semibold text-blue-200 dark:text-gray-400 uppercase tracking-wider hidden sm:inline">{currentLabel}</span>
@@ -99,20 +99,20 @@ export default function MainApp() {
         </header>
 
         {/* Contenu */}
-        <main className="flex-1 flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 min-h-0 transition-colors duration-200">
+        <main className="flex-1 flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-950 dark:bg-gray-900 min-h-0 transition-colors duration-200">
           {views[currentView]}
         </main>
 
         {/* ── Bottom nav mobile (md-) ── */}
-        <nav className="md:hidden shrink-0 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 flex items-stretch z-20 shadow-[0_-2px_8px_rgba(0,0,0,0.06)] transition-colors duration-200">
+        <nav className="md:hidden shrink-0 bg-white dark:bg-gray-900 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 flex items-stretch z-20 shadow-[0_-2px_8px_rgba(0,0,0,0.06)] transition-colors duration-200">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentView(item.id as View)}
               className={`flex-1 flex flex-col items-center justify-center py-2 gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
                 currentView === item.id
-                  ? "text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-gray-800"
-                  : "text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  ? "text-blue-700 dark:text-blue-400 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 dark:bg-gray-800"
+                  : "text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800"
               }`}
             >
               <item.icon className={`w-5 h-5 ${currentView === item.id ? "text-blue-600 dark:text-blue-400" : ""}`} />

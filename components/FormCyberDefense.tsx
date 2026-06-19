@@ -9,7 +9,7 @@ const Input = ({ label, name, type = "text", required = false, className = "col-
       <label className="text-[10px] text-gray-400 font-bold uppercase">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <input type={type} name={name} required={required} className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+      <input type={type} name={name} required={required} className="w-full p-2.5 border rounded-lg bg-white dark:bg-gray-900 text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-b dark:border-gray-800lue-500 transition-colors text-gray-900 dark:text-white" />
     </div>
   );
 
@@ -18,7 +18,7 @@ const Input = ({ label, name, type = "text", required = false, className = "col-
       <label className="text-[10px] text-gray-400 font-bold uppercase">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <textarea name={name} required={required} rows={3} className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+      <textarea name={name} required={required} rows={3} className="w-full p-2.5 border rounded-lg bg-white dark:bg-gray-900 text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-b dark:border-gray-800lue-500 transition-colors text-gray-900 dark:text-white" />
     </div>
   );
 
@@ -27,7 +27,7 @@ const Input = ({ label, name, type = "text", required = false, className = "col-
       <label className="text-[10px] text-gray-400 font-bold uppercase">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <select name={name} required={required} className="w-full p-2.5 border rounded-lg bg-white text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+      <select name={name} required={required} className="w-full p-2.5 border rounded-lg bg-white dark:bg-gray-900 text-xs outline-none focus:ring-1 focus:ring-blue-500 focus:border-b dark:border-gray-800lue-500 transition-colors text-gray-900 dark:text-white">
         <option value="">Sélectionner...</option>
         {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
       </select>
@@ -112,18 +112,18 @@ export default function FormCyberDefense({ onNavigate }: { onNavigate: (view: st
         <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
           <Check className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Demande envoyée !</h2>
-        <p className="text-gray-500 mt-2">Redirection en cours...</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Demande envoyée !</h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">Redirection en cours...</p>
       </div>
     );
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden bg-gray-50">
-      <div className="shrink-0 bg-white px-4 py-3 border-b flex items-center gap-3">
-        <button type="button" onClick={() => onNavigate('services')} className="p-2 hover:bg-gray-100 rounded-full text-gray-500 transition-colors">
+    <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden bg-gray-50 dark:bg-gray-950">
+      <div className="shrink-0 bg-white dark:bg-gray-900 px-4 py-3 border-b dark:border-gray-800 flex items-center gap-3">
+        <button type="button" onClick={() => onNavigate('services')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-500 dark:text-gray-400 transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-lg font-bold text-gray-900 tracking-tight">Nouvelle Demande : Cyber Défense</h2>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">Nouvelle Demande : Cyber Défense</h2>
       </div>
 
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
@@ -157,7 +157,7 @@ export default function FormCyberDefense({ onNavigate }: { onNavigate: (view: st
         </div>
       </main>
 
-      <footer className="shrink-0 bg-white border-t px-4 md:px-8 py-3 flex items-center justify-end gap-3 safe-area-bottom">
+      <footer className="shrink-0 bg-white dark:bg-gray-900 border-t dark:border-gray-800 px-4 md:px-8 py-3 flex items-center justify-end gap-3 safe-area-bottom">
         <button type="submit" disabled={loading} className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-bold shadow-lg shadow-red-200 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
           Envoyer la Demande
