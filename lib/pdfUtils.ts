@@ -47,3 +47,54 @@ export const generatePDF = (intv: Intervention) => {
   doc.line(20, offset2 + 5, 190, offset2 + 5);
   return doc;
 };
+
+export const generateDemandePDF = (demande: any) => {
+  const doc = new jsPDF();
+  doc.setFontSize(22);
+  doc.setTextColor(30, 58, 138);
+  doc.text("DEMANDE DE SERVICE", 105, 20, { align: "center" });
+  
+  doc.setFontSize(12);
+  doc.setTextColor(100);
+  doc.text(`Ticket N°: ${demande.ticketId}`, 20, 35);
+  doc.text(`Date: ${new Date(demande.createdAt).toLocaleDateString()}`, 140, 35);
+  doc.text(`Service: ${demande.serviceType}`, 20, 45);
+  
+  doc.setDrawColor(200);
+  doc.line(20, 50, 190, 50);
+  
+  doc.setFontSize(14);
+  doc.setTextColor(30, 58, 138);
+  doc.text("Informations Client", 20, 60);
+  
+  doc.setFontSize(10);
+  doc.setTextColor(50);
+  doc.text(`Nom: ${demande.client.prenom} ${demande.client.nom}`, 20, 70);
+  if (demande.client.entreprise) doc.text(`Entreprise: ${demande.client.entreprise}`, 20, 75);
+  doc.text(`Téléphone: ${demande.client.telephone} (WA: ${demande.client.whatsapp})`, 20, 80);
+  doc.text(`Localisation: ${demande.client.ville}, ${demande.client.quartier} - ${demande.client.adresse}`, 20, 85);
+  
+  doc.setDrawColor(200);
+  doc.line(20, 95, 190, 95);
+  
+  doc.setFontSize(14);
+  doc.setTextColor(30, 58, 138);
+  doc.text("Détails du Besoin", 20, 105);
+  
+  doc.setFontSize(10);
+  doc.setTextColor(50);
+  let yPos = 115;
+  
+  for (const [key, value] of Object.entries(demande.details)) {
+    if (value) {
+      const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+      const lines = doc.splitTextToSize(`${formattedKey}: ${value}`, 170);
+      doc.text(lines, 20, yPos);
+      yPos += lines.length * 5;
+    }
+  }
+  
+  doc.line(20, yPos + 5, 190, yPos + 5);
+  
+  return doc;
+};

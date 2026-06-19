@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+  .dark body {
+    background-color: var(--color-gray-900) !important;
+    color: var(--color-gray-100) !important;
+  }
+  .dark .bg-white {
+    background-color: var(--color-gray-900) !important;
+    border-color: var(--color-gray-800) !important;
+  }
+  .dark .bg-gray-50 {
+    background-color: var(--color-gray-950) !important;
+  }
+  .dark .bg-gray-100 {
+    background-color: var(--color-gray-800) !important;
+  }
+  .dark .text-gray-900 {
+    color: var(--color-gray-100) !important;
+  }
+  .dark .text-gray-700 {
+    color: var(--color-gray-200) !important;
+  }
+  .dark .text-gray-500 {
+    color: var(--color-gray-400) !important;
+  }
+  .dark .border, .dark .border-b, .dark .border-t, .dark .border-r, .dark .border-l, .dark .border-gray-200 {
+    border-color: var(--color-gray-800) !important;
+  }
+  .dark input, .dark textarea, .dark select {
+    background-color: var(--color-gray-800) !important;
+    color: var(--color-gray-100) !important;
+    border-color: var(--color-gray-700) !important;
+  }
+  .dark header {
+    background-color: var(--color-gray-950) !important;
+    border-color: var(--color-gray-800) !important;
+  }
+  .dark nav {
+    background-color: var(--color-gray-950) !important;
+    border-color: var(--color-gray-800) !important;
+  }
+}

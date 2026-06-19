@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from "react";
 import { db, collection, onSnapshot, query, orderBy } from "../lib/firebase";
 import { Intervention, Client } from "../lib/types";

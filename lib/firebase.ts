@@ -27,6 +27,23 @@ export const addDoc = async (colName: string, data: any) => {
   return newDoc;
 };
 
+export const getDocs = async (colName: string) => {
+  const data = getLocalData(colName);
+  return {
+    docs: data.map((d: any) => ({
+      id: d.id,
+      data: () => d
+    }))
+  };
+};
+
+export const deleteDoc = async (docRef: { col: string, id: string }) => {
+  const col = getLocalData(docRef.col);
+  const filtered = col.filter((d: any) => d.id !== docRef.id);
+  setLocalData(docRef.col, filtered);
+  if (emitter) emitter.dispatchEvent(new Event(docRef.col));
+};
+
 export const updateDoc = async (docRef: { col: string, id: string }, data: any) => {
   const col = getLocalData(docRef.col);
   const idx = col.findIndex((d: any) => d.id === docRef.id);

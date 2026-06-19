@@ -37,3 +37,22 @@ export interface Intervention {
   status: "En attente" | "En cours" | "Résolu" | "Livré";
   createdAt: string; 
 }
+
+// ── Nouveaux Types pour les Services ──
+
+export type ServiceType = 
+  | "CYBER DÉFENSE" 
+  | "SUPPORT IT" 
+  | "CONCEPTION DE SITE WEB" 
+  | "DÉVELOPPEMENT APPLICATION" 
+  | "SOLUTIONS IA";
+
+export interface DemandeService {
+  id?: string;
+  ticketId: string;
+  client: Client;
+  serviceType: ServiceType;
+  details: any; // Détails spécifiques au service choisi
+  status: "Nouveau" | "En cours d'analyse" | "Devis envoyé" | "Accepté" | "Terminé";
+  createdAt: string;
+}
